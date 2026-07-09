@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class EmailLog extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'application_id',
         'template_id',
@@ -23,10 +20,6 @@ class EmailLog extends Model
     protected $casts = [
         'sent_at' => 'datetime',
     ];
-
-    const STATUS_PENDING = 'pending';
-    const STATUS_SENT = 'sent';
-    const STATUS_FAILED = 'failed';
 
     public function application()
     {

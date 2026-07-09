@@ -2,26 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class WebsiteSetting extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'key',
-        'value',
-    ];
-
-    protected $primaryKey = 'key';
-    public $incrementing = false;
-    protected $keyType = 'string';
     public $timestamps = false;
+
+    protected $fillable = ['key', 'value'];
+    protected $primaryKey = 'key';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     public static function getValue($key, $default = null)
     {
-        $setting = self::find($key);
+        $setting = self::where('key', $key)->first();
         return $setting ? $setting->value : $default;
     }
 
@@ -31,5 +26,10 @@ class WebsiteSetting extends Model
             ['key' => $key],
             ['value' => $value]
         );
+    }
+
+    public static function all($columns = ['*'])
+    {
+        return parent::all($columns);
     }
 }

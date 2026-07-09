@@ -2,16 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Application extends Model implements Auditable
+class Application extends Model
 {
-    use HasFactory, AuditableTrait;
+    use SoftDeletes;
 
     protected $fillable = [
         'reference_id',
@@ -40,39 +36,30 @@ class Application extends Model implements Auditable
 
     protected $casts = [
         'date_of_birth' => 'date',
+        'loan_amount' => 'decimal:2',
+        'monthly_income' => 'decimal:2',
         'submitted_at' => 'datetime',
         'reviewed_at' => 'datetime',
         'ocr_results' => 'json',
     ];
 
-    const STATUS_PENDING = 'pending';
-    const STATUS_VERIFIED = 'verified';
-    const STATUS_PROCESSING = 'processing';
-    const STATUS_APPROVED = 'approved';
-    const STATUS_REJECTED = 'rejected';
-    const STATUS_COMPLETED = 'completed';
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-    const IDENTITY_UNVERIFIED = 'unverified';
-    const IDENTITY_VERIFIED = 'verified';
-    const IDENTITY_UNDER_REVIEW = 'under_review';
-
-    public function documents(): HasMany
+    public function documents()
     {
         return $this->hasMany(ApplicationDocument::class);
     }
 
-    public function bankDetails(): HasOne
+    public function bankDetails()
     {
         return $this->hasOne(BankDetail::class);
     }
 
-    public function emailLogs(): HasMany
+    public function emailLogs()
     {
         return $this->hasMany(EmailLog::class);
-    }
-
-    public function reviewer()
-    {
-        return $this->belongsTo(User::class, 'reviewed_by');
     }
 }

@@ -2,15 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
-use OwenIt\Auditing\Auditable as AuditableTrait;
 
-class BankDetail extends Model implements Auditable
+class BankDetail extends Model
 {
-    use HasFactory, AuditableTrait;
-
     protected $fillable = [
         'application_id',
         'bank_name',
@@ -28,10 +23,6 @@ class BankDetail extends Model implements Auditable
         'approved_at' => 'datetime',
         'rejected_at' => 'datetime',
     ];
-
-    const STATUS_PENDING = 'pending';
-    const STATUS_APPROVED = 'approved';
-    const STATUS_REJECTED = 'rejected';
 
     public function application()
     {

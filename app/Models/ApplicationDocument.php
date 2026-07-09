@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ApplicationDocument extends Model
 {
-    use HasFactory;
+    const TYPE_ID_CARD = 'id_card';
+    const TYPE_PASSPORT = 'passport';
+    const TYPE_INCOME_PROOF = 'income_proof';
+    const TYPE_BANK_STATEMENT = 'bank_statement';
 
     protected $fillable = [
         'application_id',
@@ -17,11 +19,6 @@ class ApplicationDocument extends Model
         'mime_type',
         'file_size',
     ];
-
-    const TYPE_ID_CARD = 'id_card';
-    const TYPE_PASSPORT = 'passport';
-    const TYPE_BANK_STATEMENT = 'bank_statement';
-    const TYPE_EMPLOYMENT_LETTER = 'employment_letter';
 
     public function application()
     {
