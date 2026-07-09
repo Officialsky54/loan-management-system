@@ -1,0 +1,36 @@
+#!/usr/bin/env php
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Bootstrap The Environment
+|--------------------------------------------------------------------------
+*/
+
+require __DIR__.'/app/services/helpers/bootstrap.php';
+
+/*
+|--------------------------------------------------------------------------
+| Application Bootstrap
+|--------------------------------------------------------------------------
+*/
+
+require __DIR__.'/../bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Load The Application
+|--------------------------------------------------------------------------
+*/
+
+$app = require __DIR__.'/../bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Artisan Application
+|--------------------------------------------------------------------------
+*/
+
+$kernel = $app->make(\Illuminate\Contracts\Console\Kernel::class);
+
+exit($kernel->handle($input = new \Symfony\Component\Console\Input\ArgvInput, new \Symfony\Component\Console\Output\ConsoleOutput));

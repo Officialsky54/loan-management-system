@@ -1,265 +1,354 @@
-# Laravel Loan Management System
+# Loan Management System
 
-A complete, production-ready Loan Management System built with Laravel 12, PHP 8.3+, MySQL, Bootstrap 5, and AdminLTE.
+A complete Laravel-based Loan Management System with automated application processing, identity verification, and admin dashboard.
 
 ## Features
 
-### Installation
-- Web-based installer - no terminal/SSH required
-- Automatic database setup
-- Environment configuration
-- Admin account creation
+✨ **Core Features:**
+- 📝 Online loan application form with multi-step process
+- 🔍 OCR-based document scanning and verification
+- 📊 Comprehensive admin dashboard with analytics
+- 💳 Bank detail verification and management
+- 📧 Automated email notifications
+- 🔒 Secure user authentication
+- 📱 Responsive design for all devices
+- 💰 Loan calculator with real-time calculations
+- 📈 Application tracking system
+- 🗂️ Document management
+- 👤 Role-based access control
+- 📋 Audit logging for all transactions
 
-### Dashboard
-- Application statistics
-- Pending applications tracking
-- Manual review queue
-- Email logs
-- Website statistics
+## Technology Stack
 
-### Loan Application System
-- Multi-step application form
-- OCR verification (optional)
-- Automatic email workflow
-- Application tracking
-- Bank details submission
+- **Backend:** Laravel 12
+- **Database:** MySQL 8.0+
+- **Frontend:** Bootstrap 5, Alpine.js
+- **OCR:** Tesseract OCR (optional)
+- **Email:** SMTP/Mailtrap
+- **Storage:** Local/Cloud Storage
 
-### Admin Panel
-- Website settings management
-- Language configuration
-- Email template editor
-- OCR settings
-- User management
-- Application management
-- Export to Excel/PDF
-- Audit logs
+## Requirements
 
-### Security Features
-- CSRF Protection
-- Rate Limiting
-- Input Validation
-- XSS Protection
-- SQL Injection Protection
-- Secure File Uploads
-- Password Hashing
-- Authentication & Authorization
-
-## System Requirements
-
-- PHP 8.3 or higher
-- MySQL 8.0 or higher
+- PHP 8.3+
+- MySQL 8.0+
 - Composer
-- Node.js & npm (for frontend assets)
+- Node.js 18+ (for assets)
+- npm or yarn
 
-## Installation Instructions
+## Installation
 
-### Method 1: Web-Based Installer (Recommended for cPanel)
+### Option 1: Using the Installer (Recommended)
 
-1. Upload the project to your cPanel/hosting
-2. Visit `https://yourdomain.com/install`
-3. Fill in the database and admin details
-4. Click Install
-5. The system will:
-   - Create `.env` file
-   - Generate application key
-   - Run migrations
-   - Seed database
-   - Create admin account
-   - Disable the installer
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Officialsky54/loan-management-system.git
+   cd loan-management-system
+   ```
 
-### Method 2: Manual Installation (Local Development)
+2. **Install dependencies:**
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Access the installer:**
+   - Open your browser and go to `http://your-domain/install`
+   - Fill in the database and admin credentials
+   - Click "Complete Installation"
+
+### Option 2: Manual Installation
+
+1. **Clone and install:**
+   ```bash
+   git clone https://github.com/Officialsky54/loan-management-system.git
+   cd loan-management-system
+   composer install
+   npm install
+   ```
+
+2. **Setup environment:**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+3. **Configure database in `.env`:**
+   ```
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=loan_system
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. **Run migrations and seeders:**
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
+
+5. **Build assets:**
+   ```bash
+   npm run build
+   ```
+
+6. **Create admin user:**
+   ```bash
+   php artisan tinker
+   >>> App\Models\User::create(['name' => 'admin', 'email' => 'admin@example.com', 'password' => bcrypt('password'), 'is_active' => true])
+   >>> exit
+   ```
+
+## Configuration
+
+### Environment Variables
+
+Key environment variables in `.env`:
+
+```env
+APP_NAME="Loan Management System"
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://yourdomain.com
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_DATABASE=loan_system
+DB_USERNAME=root
+DB_PASSWORD=your_password
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+
+OCR_ENABLED=true
+OCR_PROVIDER=tesseract
+```
+
+### Email Configuration
+
+1. Go to Admin Settings
+2. Configure SMTP settings (Mailtrap, SendGrid, etc.)
+3. Customize email templates
+4. Test email delivery
+
+### OCR Setup (Optional)
+
+If using Tesseract OCR:
 
 ```bash
-# Clone the repository
-git clone https://github.com/Officialsky54/loan-management-system.git
-cd loan-management-system
+# Ubuntu/Debian
+sudo apt-get install tesseract-ocr
 
-# Install dependencies
-composer install
-npm install
+# macOS
+brew install tesseract
 
-# Copy environment file
-cp .env.example .env
-
-# Generate application key
-php artisan key:generate
-
-# Run migrations
-php artisan migrate
-
-# Seed database
-php artisan db:seed
-
-# Build frontend assets
-npm run build
-
-# Start development server
-php artisan serve
+# Windows
+# Download from: https://github.com/UB-Mannheim/tesseract/wiki
 ```
 
-## Default Credentials (After Installation)
+## Usage
 
-**Admin Panel URL:** `/admin`
+### For Applicants
+
+1. **Visit the website:** `https://yourdomain.com`
+2. **Click "Apply Now"** to start the application
+3. **Fill the multi-step form:**
+   - Personal Information
+   - Address Details
+   - Employment Information
+   - Loan Details
+   - Document Upload
+4. **Submit and get reference ID**
+5. **Track application status** using reference ID and email
+
+### For Administrators
+
+1. **Login:** Go to `/admin` (or `/login` then redirect to admin)
+2. **Dashboard:** View key metrics and recent applications
+3. **Manage Applications:**
+   - View all applications
+   - Approve/Reject applications
+   - Review identity verification
+   - Manage bank details
+4. **Email Templates:** Customize and manage email communications
+5. **Settings:** Configure system settings and email
+6. **Export Data:** Export applications as Excel/PDF
+
+## Database Schema
+
+### Key Tables
+
+- `users` - System users and admins
+- `applications` - Loan applications
+- `application_documents` - Uploaded documents
+- `bank_details` - Bank account information
+- `email_templates` - Email templates
+- `email_logs` - Email sending history
+- `website_settings` - System configuration
+- `audits` - Activity logs
+
+## API Endpoints (if enabled)
 
 ```
-Email: admin@example.com
-Password: (as set during installation)
+POST   /api/applications              - Submit application
+GET    /api/applications/{id}         - Get application details
+GET    /api/applications/track        - Track application
+GET    /api/loan/calculate            - Calculate loan payment
 ```
 
-## Directory Structure
+## Application Workflow
+
+```
+1. Application Submitted
+   ↓
+2. Identity Verification (OCR/Manual)
+   ├─ Verified → Proceed
+   └─ Rejected → Notify Applicant
+   ↓
+3. Request Bank Details
+   ↓
+4. Bank Details Review
+   ├─ Approved → Loan Approved
+   ├─ Rejected → Loan Rejected
+   └─ Manual Review → Admin Decision
+   ↓
+5. Loan Disbursement
+   ↓
+6. Completed
+```
+
+## Security Features
+
+- 🔐 Password hashing with bcrypt
+- 🔒 CSRF protection
+- 🛡️ SQL injection prevention
+- 🚫 XSS protection
+- 🔑 JWT token support (optional)
+- 📝 Audit logging
+- 🔍 Input validation and sanitization
+- 🚀 Rate limiting (optional)
+
+## File Structure
 
 ```
 loan-management-system/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/
-│   │   ├── Middleware/
-│   │   └── Requests/
+│   │   │   ├── Admin/
+│   │   │   ├── Web/
+│   │   │   └── Installer/
 │   ├── Models/
 │   ├── Services/
 │   ├── Jobs/
-│   └── Mail/
+│   └── Events/
 ├── database/
 │   ├── migrations/
-│   ├── seeders/
-│   └── factories/
+│   └── seeders/
 ├── resources/
 │   ├── views/
 │   │   ├── admin/
-│   │   ├── public/
-│   │   └── installer/
+│   │   ├── web/
+│   │   ├── installer/
+│   │   └── auth/
 │   ├── css/
 │   └── js/
 ├── routes/
-├── public/
+│   └── web.php
+├── config/
 ├── storage/
-└── bootstrap/
+└── public/
 ```
-
-## Configuration
-
-### Admin Panel Settings
-
-Navigate to **Admin > Settings** to configure:
-
-- Company Name & Logo
-- Contact Information
-- Loan Parameters (min/max amounts, duration, interest rate)
-- Currency & Language
-- SMTP Email Settings
-- OCR Settings
-- Maintenance Mode
-
-### Email Templates
-
-Customize all emails in **Admin > Email Templates**:
-
-- Application Received
-- Application Verified
-- Bank Details Request
-- Approval/Rejection Emails
-
-Supported placeholders:
-- `{customer_name}`
-- `{reference_id}`
-- `{loan_amount}`
-- `{monthly_payment}`
-- `{interest_rate}`
-- `{total_repayment}`
-- `{tracking_link}`
-- `{company_name}`
-
-## API Documentation
-
-### Application Tracking
-
-```
-GET /track
-Parameters:
-- reference_id
-- email
-
-Returns:
-- Application status
-- Current step
-- Loan details
-- Uploaded documents
-```
-
-### Loan Calculator
-
-```
-GET /api/loan-calculator
-Parameters:
-- loan_amount (required)
-- loan_duration (required)
-- interest_rate (optional)
-
-Returns:
-- monthly_payment
-- total_interest
-- total_repayment
-```
-
-## Database Schema
-
-Key tables:
-- `users` - Admin users
-- `applications` - Loan applications
-- `application_documents` - Uploaded files
-- `bank_details` - Customer bank information
-- `email_logs` - Email tracking
-- `website_settings` - Configuration
-- `email_templates` - Editable email templates
-
-## Security Considerations
-
-1. Keep `.env` file secure and never commit it
-2. Regularly update dependencies: `composer update`
-3. Enable two-factor authentication for admin accounts
-4. Use strong passwords
-5. Implement SSL/HTTPS
-6. Set up regular database backups
-7. Monitor audit logs
-8. Keep PHP and MySQL updated
 
 ## Troubleshooting
 
-### Installer Issues
+### Installation Issues
 
-If you see "Installer already completed":
-- The installer is disabled after first setup
-- Delete `storage/app/installer_completed` to re-run
+**Problem:** "Class not found" error
+```bash
+composer dump-autoload
+```
 
-### Permission Errors
-
+**Problem:** Storage permission denied
 ```bash
 chmod -R 775 storage bootstrap/cache
 ```
 
-### Database Connection Error
+**Problem:** Database connection failed
+- Check `.env` database credentials
+- Ensure MySQL is running
+- Create database: `mysql -u root -p -e "CREATE DATABASE loan_system"`
 
-Check `.env` file for correct database credentials
+### Email Issues
 
-### Email Not Sending
+- Test SMTP credentials in Settings
+- Check email logs in Admin Dashboard
+- Verify firewall allows SMTP port (usually 587 or 2525)
 
-- Verify SMTP settings in Admin > Settings
-- Check email logs in Admin > Email Logs
-- Ensure port 587 or 465 is open
+### OCR Issues
 
-## Support
+- Verify Tesseract is installed: `tesseract --version`
+- Check file permissions for storage/app
+- Review OCR results in application details
 
-For issues or questions, please check:
-1. Application logs: `storage/logs/`
-2. Email logs: Admin > Email Logs
-3. Audit logs: Admin > Audit Logs
+## Performance Optimization
+
+1. **Enable Caching:**
+   ```bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+
+2. **Database Optimization:**
+   - Index frequently searched columns
+   - Regular backups
+   - Purge old email logs
+
+3. **Asset Optimization:**
+   ```bash
+   npm run build
+   ```
+
+## Maintenance
+
+### Regular Tasks
+
+- Backup database weekly
+- Monitor application logs
+- Update dependencies: `composer update`
+- Clear cache regularly: `php artisan cache:clear`
+
+### Clearing Cache
+
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+```
+
+## Support & Contributions
+
+For issues, feature requests, or contributions:
+- GitHub Issues: https://github.com/Officialsky54/loan-management-system/issues
+- Pull Requests: https://github.com/Officialsky54/loan-management-system/pulls
 
 ## License
 
-This project is proprietary and confidential.
+This project is proprietary software. All rights reserved.
+
+## Author
+
+Created by Officialsky54
 
 ## Version
 
 Current Version: 1.0.0
-Laravel: 12.x
-PHP: 8.3+
+Last Updated: 2024
+
+---
+
+**Need Help?** Check the [Documentation](./docs) or [FAQ](./FAQ.md)
